@@ -46,11 +46,11 @@ async function addStudent() {
         email: answers.email,
         qualification: answers.qualification,
         courses: [],
-        tuitionBalance: 500,
+        tuitionBalance: -500,
     };
 
     students.push(student);
-    console.log(chalk.green(`\nStudent ${student.name} with the student ID: ${student.studentID} added successfully!`));
+    console.log(chalk.magenta.italic(`\nStudent ${student.name} with the student ID: ${student.studentID} added successfully!`));
 }
 
 async function enrollStudent() {
@@ -65,14 +65,14 @@ async function enrollStudent() {
             }
         ]);
         student.courses.push(answers.course);
-        console.log(chalk.green(`\nStudent ${student.name} has been enrolled in the course ${answers.course}.`));
+        console.log(chalk.yellow.italic(`\nStudent ${student.name} has been enrolled in the course ${answers.course}.`));
     }
 }
 
 async function viewBalance() {
     const student = await selectStudent();
     if (student) {
-        console.log(chalk.magenta(`\nTuition balance for student ${student.name}: $${student.tuitionBalance}`));
+        console.log(chalk.magenta.italic(`\nTuition balance for student ${student.name}: $${student.tuitionBalance}`));
     }
 }
 
@@ -87,7 +87,7 @@ async function payTuition() {
             }
         ]);
 
-        student.tuitionBalance -= answers.amount;
+        student.tuitionBalance = answers.amount;
         console.log(chalk.green(`Tuition payment of $${answers.amount} has been made for student ${student.name}. New tuition balance: $${student.tuitionBalance}`));
     }
 }
@@ -100,7 +100,7 @@ async function showStudents() {
 
     console.log(chalk.blue('List of Students:'));
     students.forEach((student) => {
-        console.log(chalk.blue(`Student ID: ${student.studentID}, Name: ${student.name}, Courses Enrolled: ${student.courses.join(', ')}, Balance: $${student.tuitionBalance}`));
+        console.log(chalk.magentaBright(`Student ID: ${student.studentID}, Name: ${student.name}, Courses Enrolled: ${student.courses.join(', ')}, Balance: $${student.tuitionBalance}`));
     });
 }
 
@@ -133,7 +133,7 @@ async function updateStudent() {
         student.qualification = answers.qualification;
         student.email = answers.email;
 
-        console.log(chalk.green(`\nStudent ${student.name} with the student ID: ${student.studentID} updated successfully!`));
+        console.log(chalk.green.italic(`\nStudent ${student.name} with the student ID: ${student.studentID} updated successfully!`));
     }
 }
 
@@ -161,7 +161,7 @@ async function mainMenu() {
             {
                 name: 'action',
                 type: 'list',
-                message: chalk.blue('Select an action:'),
+                message: chalk.blue('\nSelect an action:'),
                 choices:  ['Add Student', 'Enroll in a Course', 'View Balance', 'Pay Tuition', 'Update Student', 'Show Students', 'Exit']
             }
         ]);
@@ -186,7 +186,7 @@ async function mainMenu() {
                 await showStudents();
                 break;
             case 'Exit':
-                console.log(chalk.bold.bgCyan('Exiting the application...'));
+                console.log(chalk.bold.yellowBright('\nExiting the application...'));
                 return;
         }
     }
